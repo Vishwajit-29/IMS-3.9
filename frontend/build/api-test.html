@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Diagnostics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
+        
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .endpoint {
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .endpoint-name {
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .success {
+            background-color: #e8f8f5;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .error {
+            background-color: #fdedec;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .pending {
+            background-color: #f9f9f9;
+            border-left: 4px solid #f1c40f;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .badge-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .badge-error {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .badge-pending {
+            background-color: #f1c40f;
+            color: white;
+        }
+        
+        .info-text {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .log {
+            font-family: monospace;
+            font-size: 12px;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            height: 150px;
+            overflow-y: auto;
+        }
+        
+        .log-item {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>API Diagnostics Tool</h1>
+
+        <div class="card">
+            <h2>Server Status</h2>
+            <div class="endpoint">
+                <span class="endpoint-name">Health Check</span>
+                <div class="button-container">
+                    <button onclick="testHealth('http://localhost:8080/api/public/health')">Test with /api/public</button>
+                    <button onclick="testHealth('http://localhost:8080/public/health')">Test with /public</button>
+                </div>
+                <div id="health-result" class="test-result pending">Waiting to test...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Authentication Test</h2>
+            <div class="info-text">
+                <p>Test credentials: <strong>Username:</strong> admin, <strong>Password:</strong> admin123</p>
+            </div>
+
+            <h3>1. Manual URL Entry</h3>
+            <input type="text" id="login-url" class="url-input" value="http://localhost:8080/auth/login" placeholder="Enter full login URL">
+            <div class="button-container">
+                <button onclick="testCustomLogin()">Test Custom URL</button>
+            </div>
+
+            <h3>2. Common URL Patterns</h3>
+            <div class="endpoint">
+                <span class="endpoint-name">/auth/login</span>
+                <div class="button-container">
+                    <button onclick="testLogin('http://localhost:8080/auth/login')">Test Login</button>
+                </div>
+                <div id="login-1-result" class="test-result pending">Waiting to test...</div>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-name">/api/auth/login</span>
+                <div class="button-container">
+                    <button onclick="testLogin('http://localhost:8080/api/auth/login')">Test Login</button>
+                </div>
+                <div id="login-2-result" class="test-result pending">Waiting to test...</div>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-name">/api/api/auth/login</span>
+                <div class="button-container">
+                    <button onclick="testLogin('http://localhost:8080/api/api/auth/login')">Test Login</button>
+                </div>
+                <div id="login-3-result" class="test-result pending">Waiting to test...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Log</h2>
+            <div id="log" class="log"></div>
+        </div>
+
+        <div class="info-text">
+            <p>This tool helps diagnose API connectivity issues by testing various URL patterns.</p>
+            <p>Use it to determine the correct endpoint configuration for your backend.</p>
+        </div>
+    </div>
+
+    <script>
+        // Log function with timestamp
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            logItem.innerHTML = `<span style="color: #888;">[${timestamp}]</span> <span style="color: ${type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue'}">${message}</span>`;
+            logElement.appendChild(logItem);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        // Health check
+        async function testHealth(url) {
+            const resultElement = document.getElementById('health-result');
+            resultElement.className = 'test-result pending';
+            resultElement.textContent = 'Testing...';
+
+            log(`Testing health endpoint: ${url}`);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                let responseText;
+                try {
+                    const data = await response.json();
+                    responseText = JSON.stringify(data, null, 2);
+                } catch (e) {
+                    responseText = await response.text();
+                }
+
+                if (response.ok) {
+                    resultElement.className = 'test-result success';
+                    resultElement.textContent = `SUCCESS (${response.status}): ${responseText}`;
+                    log(`Health check successful: ${url}`, 'success');
+                } else {
+                    resultElement.className = 'test-result error';
+                    resultElement.textContent = `ERROR (${response.status}): ${responseText}`;
+                    log(`Health check failed: ${url} - Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                resultElement.className = 'test-result error';
+                resultElement.textContent = `ERROR: ${error.message}`;
+                log(`Health check error: ${url} - ${error.message}`, 'error');
+            }
+        }
+
+        // Test custom login URL
+        function testCustomLogin() {
+            const url = document.getElementById('login-url').value;
+            log(`Testing custom login URL: ${url}`);
+
+            // Create result element if it doesn't exist
+            let resultElement = document.getElementById('custom-login-result');
+            if (!resultElement) {
+                resultElement = document.createElement('div');
+                resultElement.id = 'custom-login-result';
+                resultElement.className = 'test-result pending';
+                document.getElementById('login-url').insertAdjacentElement('afterend', resultElement);
+            }
+
+            testLoginWithElement(url, resultElement);
+        }
+
+        // Login test
+        async function testLogin(url) {
+            const urlBase = url.replace('/login', '');
+            const id = url.includes('/api/api/') ? 'login-3' :
+                url.includes('/api/') ? 'login-2' : 'login-1';
+            const resultElement = document.getElementById(`${id}-result`);
+
+            testLoginWithElement(url, resultElement);
+        }
+
+        // Test login with specific result element
+        async function testLoginWithElement(url, resultElement) {
+            resultElement.className = 'test-result pending';
+            resultElement.textContent = 'Testing...';
+
+            log(`Testing login endpoint: ${url}`);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin123'
+                    })
+                });
+
+                let responseText;
+                try {
+                    const data = await response.json();
+                    responseText = JSON.stringify(data, null, 2);
+                } catch (e) {
+                    responseText = await response.text();
+                }
+
+                if (response.ok) {
+                    resultElement.className = 'test-result success';
+                    resultElement.textContent = `SUCCESS (${response.status}): ${responseText}`;
+                    log(`Login successful: ${url}`, 'success');
+
+                    // Update all other login tests to show which one worked
+                    const allLoginResults = document.querySelectorAll('[id^="login-"]');
+                    allLoginResults.forEach(element => {
+                        if (element !== resultElement && element.id !== 'login-url') {
+                            element.textContent += '\n\nNOTE: Login succeeded with another endpoint (see above)';
+                        }
+                    });
+                } else {
+                    resultElement.className = 'test-result error';
+                    resultElement.textContent = `ERROR (${response.status}): ${responseText}`;
+                    log(`Login failed: ${url} - Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                resultElement.className = 'test-result error';
+                resultElement.textContent = `ERROR: ${error.message}`;
+                log(`Login error: ${url} - ${error.message}`, 'error');
+            }
+        }
+
+        // Run basic tests on load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('API Diagnostics tool loaded');
+            setTimeout(() => testHealth('http://localhost:8080/api/public/health'), 500);
+        });
+    </script>
+</body>
+
+</html>

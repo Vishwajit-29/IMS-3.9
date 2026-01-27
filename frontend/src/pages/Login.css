@@ -1,0 +1,151 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.login-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    max-width: 90%;
+}
+
+.login-card h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.login-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #2980b9;
+}
+
+.login-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.error-message {
+    background-color: #fdeded;
+    color: #f44336;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+
+/* Status styles */
+
+.server-status {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.server-status small {
+    background-color: #f9f9f9;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+
+
+/* Status indicator colors */
+
+.status-ok small {
+    background-color: #e6f7e9;
+    border-color: #a8e4af;
+    color: #2c7a39;
+}
+
+.status-warning small {
+    background-color: #fff9e6;
+    border-color: #ffeaa0;
+    color: #96781e;
+}
+
+.status-error small {
+    background-color: #fdeded;
+    border-color: #f7c1c1;
+    color: #b71c1c;
+}
+
+
+/* Admin login button */
+
+.admin-login-help {
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.admin-button {
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.admin-button:hover {
+    background-color: #6c7a7d;
+}
