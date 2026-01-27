@@ -1,0 +1,9 @@
+{
+  "name": "Docker-enabled Codespace",
+  "dockerFile": "Dockerfile",
+  "runArgs": ["--privileged", "--volume=/var/lib/docker"],
+  "postCreateCommand": "sudo service docker start && sleep 5",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+  },
+}
