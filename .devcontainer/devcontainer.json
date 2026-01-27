@@ -1,0 +1,16 @@
+{
+  "name": "Full Stack Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspaces/backend",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-spring-boot",
+        "ms-vscode.vscode-react-javascript",
+        "mongodb.mongodb-vscode"
+      ]
+    }
+  },
+  "shutdownAction": "none"
+}   
