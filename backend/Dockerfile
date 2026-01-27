@@ -1,4 +1,4 @@
-FROM maven:3.8-openjdk-17 AS build
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-slim
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
@@ -32,4 +32,4 @@ ENV SPRING_DATA_MONGODB_HOST=mongodb \
     ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000
 
 # Run the application
-CMD ["java", "-jar", "app.jar"] 
+CMD ["java", "-jar", "app.jar"]
