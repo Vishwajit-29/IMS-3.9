@@ -2,29 +2,31 @@ version: "3.8"
 
 services:
   frontend:
-    image: rupeshs11/ims-3.9:frontend
+    image: YOUR_DOCKERHUB_USERNAME/ims-frontend:latest
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://backend:8080/api
+      - REACT_APP_API_URL=https://www.knoxcloud.tech/api
     depends_on:
       - backend
     networks:
       - ims-network
+    restart: unless-stopped
 
   backend:
-    image: rupeshs11/ims-3.9:backend
+    image: YOUR_DOCKERHUB_USERNAME/ims-backend:latest
     ports:
       - "8080:8080"
     environment:
       - SPRING_DATA_MONGODB_HOST=mongodb
       - SPRING_DATA_MONGODB_PORT=27017
       - SPRING_DATA_MONGODB_DATABASE=ims_db_1
-      - ALLOWED_ORIGINS=https://www.knoxcloud.tech,http://www.knoxcloud.tech,http://localhost:3000,http://frontend:3000
+      - ALLOWED_ORIGINS=https://www.knoxcloud.tech,http://www.knoxcloud.tech,http://localhost:3000
     depends_on:
       - mongodb
     networks:
       - ims-network
+    restart: unless-stopped
 
   mongodb:
     image: mongo:5.0
@@ -34,6 +36,7 @@ services:
       - mongodb-data:/data/db
     networks:
       - ims-network
+    restart: unless-stopped
 
 volumes:
   mongodb-data:
