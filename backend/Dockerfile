@@ -29,7 +29,7 @@ EXPOSE 8080
 ENV SPRING_DATA_MONGODB_HOST=mongodb \
     SPRING_DATA_MONGODB_PORT=27017 \
     SPRING_DATA_MONGODB_DATABASE=ims_db_1 \
-    ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000
+    ALLOWED_ORIGINS=https://www.knoxcloud.tech,http://www.knoxcloud.tech,http://localhost:3000,http://frontend:3000
 
 # Run the application
 CMD ["java", "-jar", "app.jar"]
