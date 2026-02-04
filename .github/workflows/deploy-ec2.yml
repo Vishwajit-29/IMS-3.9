@@ -16,7 +16,7 @@ jobs:
   setup:
     name: Initial Setup
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.initial_setup == 'true' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.initial_setup == 'true' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
 
           services:
             frontend:
-              image: ${{ secrets.DOCKER_HUB_USERNAME }}/ims-3.9:frontend
+              image: rupeshs11/ims-3.9:frontend
               ports:
                 - "3000:3000"
               depends_on:
@@ -58,7 +58,7 @@ jobs:
                 - ims-network
 
             backend:
-              image: ${{ secrets.DOCKER_HUB_USERNAME }}/ims-3.9:backend
+              image: rupeshs11/ims-3.9:backend
               ports:
                 - "8080:8080"
               environment:
@@ -126,7 +126,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || (github.event_name == 'workflow_dispatch' && github.event.inputs.initial_setup != 'true') }}
+    if: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') || (github.event_name == 'workflow_dispatch' && github.event.inputs.initial_setup == 'false') }}
 
     steps:
       - uses: actions/checkout@v4
