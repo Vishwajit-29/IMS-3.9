@@ -1,4 +1,4 @@
-name: Initial EC2 Setup
+name: "0. Initial EC2 Setup"
 
 on:
   workflow_dispatch:

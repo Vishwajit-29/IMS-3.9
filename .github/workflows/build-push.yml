@@ -1,4 +1,4 @@
-name: Build and Push
+name: "1. Build and Push"
 
 on:
   push:
