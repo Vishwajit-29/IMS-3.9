@@ -85,16 +85,16 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
             "http://localhost:3000",
-            "https://www.knoxcloud.tech",
-            "http://www.knoxcloud.tech",
-            "https://knoxcloud.tech",
-            "http://knoxcloud.tech"
+            "https://www.vishwajit.tech",
+            "http://www.vishwajit.tech",
+            "https://vishwajit.tech",
+            "http://vishwajit.tech"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "Origin", "Accept", "X-Requested-With"));
         configuration.setExposedHeaders(List.of("x-auth-token"));
         configuration.setAllowCredentials(true);
-        
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -107,7 +107,7 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> 
+            .authorizeHttpRequests(auth ->
                 auth
                     // Allow OPTIONS requests for CORS preflight
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -119,9 +119,9 @@ public class WebSecurityConfig {
                     // Protected endpoints - none for now
                     .anyRequest().permitAll()
             );
-        
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        
+
         return http.build();
     }
-} 
+}

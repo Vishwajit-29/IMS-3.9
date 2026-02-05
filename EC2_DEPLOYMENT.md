@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - AWS EC2 instance (Amazon Linux 2 or Ubuntu)
-- Domain `www.knoxcloud.tech` pointing to EC2 public IP
+- Domain `www.vishwajit.tech` pointing to EC2 public IP
 - SSH access to EC2
 
 ---
@@ -47,7 +47,7 @@ sudo yum install -y python3-pip
 sudo pip3 install certbot certbot-nginx
 
 # Get SSL certificate
-sudo certbot --nginx -d www.knoxcloud.tech -d knoxcloud.tech
+sudo certbot --nginx -d www.vishwajit.tech -d vishwajit.tech
 ```
 
 ---
@@ -102,9 +102,9 @@ Make sure your EC2 Security Group allows:
 
 ## Verify Deployment
 
-1. Open browser and go to: `https://www.knoxcloud.tech`
+1. Open browser and go to: `https://www.vishwajit.tech`
 2. You should see the IMS login page
-3. Test API: `https://www.knoxcloud.tech/api/health`
+3. Test API: `https://www.vishwajit.tech/api/health`
 
 ---
 
@@ -144,4 +144,4 @@ Check if containers are running: `docker-compose ps`
 
 ### SSL Certificate Issues
 
-Re-run certbot: `sudo certbot --nginx -d www.knoxcloud.tech`
+Re-run certbot: `sudo certbot --nginx -d www.vishwajit.tech`
