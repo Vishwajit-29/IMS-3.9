@@ -33,3 +33,5 @@ ENV SPRING_DATA_MONGODB_HOST=mongodb \
 
 # Run the application
 CMD ["java", "-jar", "app.jar"]
+
+#for the testing of pipeline adding here a comment
