@@ -79,4 +79,4 @@ jobs:
       - name: Health Check
         run: |
           sleep 20
-          curl -f https://www.knoxcloud.tech || echo "Health check failed"
+          curl -f https://www.vishwajit.tech || echo "Health check failed"

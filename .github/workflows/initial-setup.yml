@@ -39,7 +39,7 @@ jobs:
 
           services:
             frontend:
-              image: rupeshs11/ims-3.9:frontend
+              image: vishwajit29/ims-3.9:frontend
               ports:
                 - "3000:3000"
               depends_on:
@@ -48,14 +48,14 @@ jobs:
                 - ims-network
 
             backend:
-              image: rupeshs11/ims-3.9:backend
+              image: vishwajit29/ims-3.9:backend
               ports:
                 - "8080:8080"
               environment:
                 - SPRING_DATA_MONGODB_HOST=mongodb
                 - SPRING_DATA_MONGODB_PORT=27017
                 - SPRING_DATA_MONGODB_DATABASE=ims_db_1
-                - ALLOWED_ORIGINS=https://www.knoxcloud.tech,http://www.knoxcloud.tech,http://localhost:3000
+                - ALLOWED_ORIGINS=https://www.vishwajit.tech,http://www.vishwajit.tech,http://localhost:3000
               depends_on:
                 - mongodb
               networks:
@@ -85,7 +85,7 @@ jobs:
             sudo tee /etc/nginx/conf.d/ims.conf << 'NGINX'
           server {
               listen 80;
-              server_name www.knoxcloud.tech knoxcloud.tech;
+              server_name www.vishwajit.tech vishwajit.tech;
 
               location / {
                   proxy_pass http://localhost:3000;
